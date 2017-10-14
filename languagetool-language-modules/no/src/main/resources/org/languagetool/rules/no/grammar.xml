@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Norwegian Grammar and Typo Rules for LanguageTool
+Copyright (C) 2017 John Erling Blad <jeblad@gmail.com>
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<!-- Please use indenting with 2 spaces, no tabs -->
+<rules lang="no" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="ARKHANGELSK" name="Arkhangelsk">
+            <pattern>
+                <token regexp="yes">\bAr[kg]an[kg]elsk(s)?\b</token>
+            </pattern>
+            <message>Mente du <suggestion>Arkhangelsk$1</suggestion>?</message>
+            <short>Mulig skrivefeil</short>
+            <url>http://www.sprakradet.no/sprakhjelp/Skriverad/navn-pa-steder-og-personer/Geografiske_namn/utanlandske-stadnamn-aa/</url>
+            <example type="correct">Fiskebåten kom fra <marker>Arkhangelsk</marker>.</example>
+            <example correction='Arkhangelsk'>Fiskebåten kom fra <marker>Arkangelsk</marker>.</example>
+        </rule>
+    </category>
+    <category id="GRAMMAR" name="Grammar" type="grammar">
+    </category>
+    <category id="COLLOCATIONS" name="Collocations" type="grammar">
+    </category>
+    <category id="MISC" name="Miscellaneous">
+    </category>
+    <category id="PUNCTUATION" name="Punctuation Errors" type="typographical">
+    </category>
+    <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+    </category>
+    <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
+    </category>
+    <category id="REDUNDANCY" name="Redundant Phrases" type="style">
+    </category>
+    <category id="STYLE" name="Style" type="style">
+    </category>
+    <category id="SEMANTICS" name="Semantic" type="inconsistency">
+    </category>
+    <category id="PLAIN_ENGLISH" name="Plain English" type="style" default="off">
+    </category>
+    <category id="WIKIPEDIA" name="Wikipedia" default="off">
+    </category>
+    <category id="TYPOGRAPHY" name="Typography" type="typographical">
+    </category>
+    <category id="MISUSED_TERMS_EU_PUBLICATIONS" name="Misused terms in EU publications (Gardner)" type="terminology" default="off">
+    </category>
+</rules>

@@ -55,6 +55,7 @@
                     <value xml:lang="uk">Перевiрка граматики</value>
                     <value xml:lang="is">Lesa yfir texta</value>
                     <value xml:lang="da">Kontrollere tekst</value>
+                    <value xml:lang="no">Kontrollere tekst</value>
                     <value xml:lang="gl">Comprobar o texto</value>
                     <value xml:lang="pt">Verificar o texto</value>
                     <value xml:lang="es">Revisar el texto</value>
@@ -92,6 +93,7 @@
                     <value xml:lang="uk">Перевірити документ</value>
                     <value xml:lang="is">Lesa aftur yfir</value>
                     <value xml:lang="da">Kontroller dokumentet</value>
+                    <value xml:lang="no">Kontroller dokumentet</value>
                     <value xml:lang="gl">Volver comprobar o texto</value>
 					<value xml:lang="pt">Voltar a verificar o texto</value>
                     <value xml:lang="es">Volver a revisar el texto</value>
@@ -129,6 +131,7 @@
                     <value xml:lang="uk">Конфігурація...</value>
                     <value xml:lang="is">Stillingar...</value>
                     <value xml:lang="da">Indstillinger...</value>
+                    <value xml:lang="no">Indstillinger...</value>
                     <value xml:lang="gl">Configuración...</value>
 					<value xml:lang="pt">Configuração...</value>
                     <value xml:lang="es">Configuración...</value>
@@ -164,6 +167,7 @@
                     <value xml:lang="uk">Про програму LanguageTool...</value>   
                     <value xml:lang="is">Upplýsingar...</value>    
                     <value xml:lang="da">Om LanguageTool</value>
+                    <value xml:lang="no">Om LanguageTool</value>
                     <value xml:lang="gl">Sobre LanguageTool</value>
 					<value xml:lang="pt">Sobre o LanguageTool</value>
                     <value xml:lang="es">Acerca de LanguageTool</value>
