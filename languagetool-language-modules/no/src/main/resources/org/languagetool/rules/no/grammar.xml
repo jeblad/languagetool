@@ -23,15 +23,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="no" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <category id="TYPOS" name="Possible Typo" type="misspelling">
-        <rule id="ARKHANGELSK" name="Arkhangelsk">
+        <rule id="no000001" name="Arkhangelsk">
+            <antipattern>
+                <token regexp="yes">Arkhangelsks?</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">\bAr[kg]an[kg]elsk(s)?\b</token>
+                <token regexp="yes">Ar[kg]h?an[kg]h?els[kg]s?</token>
             </pattern>
-            <message>Mente du <suggestion>Arkhangelsk$1</suggestion>?</message>
+            <message>Mente du <suggestion>Arkhangelsk<match no="1" regexp_match="^.*?(s?)$" regexp_replace="$1"/></suggestion>?</message>
             <short>Mulig skrivefeil</short>
             <url>http://www.sprakradet.no/sprakhjelp/Skriverad/navn-pa-steder-og-personer/Geografiske_namn/utanlandske-stadnamn-aa/</url>
-            <example type="correct">Fiskebåten kom fra <marker>Arkhangelsk</marker>.</example>
-            <example correction='Arkhangelsk'>Fiskebåten kom fra <marker>Arkangelsk</marker>.</example>
+            <example type="correct">Fiskebåten fra <marker>Arkhangelsks</marker> havn.</example>
+            <example type="correct">Havna i <marker>Arkhangelsk</marker>.</example>
+            <example correction="Arkhangelsks">Fiskebåten fra <marker>Arkangelsks</marker> havn.</example>
+            <example correction="Arkhangelsk">Havna i <marker>Arkangelsk</marker>.</example>
         </rule>
     </category>
     <category id="GRAMMAR" name="Grammar" type="grammar">
