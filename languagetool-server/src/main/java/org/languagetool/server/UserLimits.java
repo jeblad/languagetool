@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.cache.CacheBuilder;
@@ -66,8 +67,13 @@ class UserLimits {
         throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
-      JWT.require(algorithm).build().verify(token);
-      DecodedJWT decodedToken = JWT.decode(token);
+      DecodedJWT decodedToken;
+      try {
+        JWT.require(algorithm).build().verify(token);
+        decodedToken = JWT.decode(token);
+      } catch (JWTDecodeException e) {
+        throw new AuthException("Could not decode token '" + token + "'", e);
+      }
       Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
       Claim premiumClaim = decodedToken.getClaim("premium");
       boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
@@ -110,10 +116,18 @@ class UserLimits {
       }
       byte[] postDataBytes = postData.toString().getBytes("UTF-8");
       HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
-      conn.setRequestMethod("POST");
-      conn.setDoOutput(true);
-      conn.getOutputStream().write(postDataBytes);
-      return StringTools.streamToString(conn.getInputStream(), "UTF-8");
+      try {
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.getOutputStream().write(postDataBytes);
+        return StringTools.streamToString(conn.getInputStream(), "UTF-8");
+      } catch (IOException e) {
+        if (conn.getResponseCode() == 403) {
+          throw new RuntimeException("Could not get token for user '" + username + "' from " + url + ", invalid username or password (code: 403)", e);
+        } else {
+          throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
+        }
+      }
     } catch (IOException e) {
       throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
     }

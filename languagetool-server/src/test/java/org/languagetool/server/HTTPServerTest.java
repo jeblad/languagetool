@@ -38,6 +38,10 @@ import static org.junit.Assert.*;
 public class HTTPServerTest {
 
   private static final int MAX_LENGTH = 50_000;  // needs to be in sync with server conf!
+  
+  private static final String LOAD_TEST_URL = "http://localhost:<PORT>/v2/check";
+  //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
+  //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
 
   @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
@@ -174,8 +178,11 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
-        fail("Check was expected to be stopped because it took too long");
+        long t = System.currentTimeMillis();
+        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. "+
+                                     "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
+        fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
+                (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
         if (!expected.toString().contains(" 503 ")) {
           fail("Expected exception with error 503, got: " + expected);
@@ -316,9 +323,9 @@ public class HTTPServerTest {
   /**
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
-  protected String checkByPOST(Language lang, String text) throws IOException {
+  String checkByPOST(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
+    URL url = new URL(LOAD_TEST_URL.replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
     } catch (IOException e) {

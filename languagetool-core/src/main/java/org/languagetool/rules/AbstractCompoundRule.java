@@ -41,6 +41,8 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
   private final String shortDesc;
+  // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
+  protected boolean sentenceStartsWithUpperCase = false;
 
   @Override
   public abstract String getId();
@@ -102,8 +104,7 @@ public abstract class AbstractCompoundRule extends Rule {
       if (i == 0) {
         addToQueue(token, prevTokens);
         continue;
-      }
-      if (token.isImmunized()) {
+      } else if (token.isImmunized()) {
         continue;
       }
 
@@ -137,7 +138,7 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
-          RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -164,6 +165,9 @@ public abstract class AbstractCompoundRule extends Rule {
       sb.append(atr.getToken());
       if (j >= 1) {
         String stringToCheck = normalize(sb.toString());
+        if (sentenceStartsWithUpperCase && j == 1 ) {
+          stringToCheck = StringUtils.uncapitalize(stringToCheck);
+        }
         stringsToCheck.add(stringToCheck);
         origStringsToCheck.add(sb.toString().trim());
         if (!stringToToken.containsKey(stringToCheck)) {

@@ -24,10 +24,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -99,11 +96,11 @@ public class GermanSpellerRuleTest {
   public void testGetAdditionalTopSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffe"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffe]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise.]"));
+    assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
     assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
     assertFirstSuggestion("schwimmte", "schwamm", rule, lt);
@@ -173,9 +170,57 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unswar", "und zwar", rule, lt);
     assertFirstSuggestion("fomelare", "Formulare", rule, lt);
     assertFirstSuggestion("inordnung", "in Ordnung", rule, lt);
+    assertFirstSuggestion("inbälde", "in Bälde", rule, lt);
     assertFirstSuggestion("unaufbesichtigt", "unbeaufsichtigt", rule, lt);
     assertFirstSuggestion("uberaschend", "überraschend", rule, lt);
     assertFirstSuggestion("uberagendes", "überragendes", rule, lt);
+    assertFirstSuggestion("unabsichtiges", "unabsichtliches", rule, lt);
+    assertFirstSuggestion("organisatives", "organisatorisches", rule, lt);
+    assertFirstSuggestion("Medallion", "Medaillon", rule, lt);
+    assertFirstSuggestion("diagnosiere", "diagnostiziere", rule, lt);
+    assertFirstSuggestion("diagnoziert", "diagnostiziert", rule, lt);
+    assertFirstSuggestion("durschnittliche", "durchschnittliche", rule, lt);
+    assertFirstSuggestion("durschnitliche", "durchschnittliche", rule, lt);
+    assertFirstSuggestion("durchnitliche", "durchschnittliche", rule, lt);
+    assertFirstSuggestion("Durschnittswerte", "Durchschnittswerte", rule, lt);
+    assertFirstSuggestion("Durschnittsbürgers", "Durchschnittsbürgers", rule, lt);
+    assertFirstSuggestion("Heileit", "Highlight", rule, lt);
+    assertFirstSuggestion("todesbedrohende", "lebensbedrohende", rule, lt);
+    assertFirstSuggestion("todesbedrohliches", "lebensbedrohliches", rule, lt);
+    assertFirstSuggestion("folklorisch", "folkloristisch", rule, lt);
+    assertFirstSuggestion("Religiösischen", "Religiösen", rule, lt);
+    assertFirstSuggestion("reschaschiert", "recherchiert", rule, lt);
+    assertFirstSuggestion("bißjen", "bisschen", rule, lt);
+    assertFirstSuggestion("bisien", "bisschen", rule, lt);
+    assertFirstSuggestion("Gruessen", "Grüßen", rule, lt);
+    assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
+    assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
+    assertFirstSuggestion("Autonomität", "Autonomie", rule, lt);
+    assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
+    assertFirstSuggestion("Sensibelkeit", "Sensibilität", rule, lt);
+    assertFirstSuggestion("Flexibelkeit", "Flexibilität", rule, lt);
+    assertFirstSuggestion("WiFi-Direkt", "Wi-Fi Direct", rule, lt);
+    assertFirstSuggestion("Wi-Fi-Direct", "Wi-Fi Direct", rule, lt);
+    assertFirstSuggestion("hofen", "hoffen", rule, lt);
+    assertFirstSuggestion("frustuck", "Frühstück", rule, lt);
+    assertFirstSuggestion("recourcen", "Ressourcen", rule, lt);
+    assertFirstSuggestion("familiärische", "familiäre", rule, lt);
+    assertFirstSuggestion("familliarisches", "familiäres", rule, lt);
+    assertFirstSuggestion("sommerverie", "Sommerferien", rule, lt);
+    assertFirstSuggestion("thelepatie", "Telepathie", rule, lt);
+    assertFirstSuggestion("artz", "Arzt", rule, lt);
+    assertFirstSuggestion("berücksichtung", "Berücksichtigung", rule, lt);
+    assertFirstSuggestion("okey", "okay", rule, lt);
+    assertFirstSuggestion("Energiesparung", "Energieeinsparung", rule, lt);
+    assertFirstSuggestion("Deluxe-Version", "De-luxe-Version", rule, lt);
+    assertFirstSuggestion("De-luxe-Champagnr", "De-luxe-Champagner", rule, lt);
+    assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
+    assertFirstSuggestion("solltes", "solltest", rule, lt);
+    assertFirstSuggestion("Kilimanjaro", "Kilimandscharo", rule, lt);
+    assertFirstSuggestion("voraussichtige", "voraussichtliche", rule, lt);
+    assertFirstSuggestion("Aleine", "Alleine", rule, lt);
+    assertFirstSuggestion("ergeitz", "Ehrgeiz", rule, lt);
+    assertFirstSuggestion("chouch", "Couch", rule, lt);
   }
 
   @Test
@@ -203,7 +248,8 @@ public class GermanSpellerRuleTest {
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
+    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
   }
 
   @Test
@@ -218,17 +264,29 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("SPD- und CDU-Abgeordnete")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Haupt- und Nebensatz")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Vertuschungs- und Bespitzelungsmaßnahmen")).length); // remove "s" from "Vertuschungs" before spell check
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Bund-Länder-Kommission")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Des World Wide Webs")).length); // expanded multi-word entry from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("α-Strahlung")).length); // compound with ignored word from spelling.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
+
+    // check acceptance of words in ignore.txt ending with "-*"
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use-Güter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use- und Wirtschaftsgüter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
   }
 
   @Test
@@ -263,12 +321,16 @@ public class GermanSpellerRuleTest {
     assertTrue(ruleGermany.doIgnoreWord("Feynmandiagramme"));           // from spelling.txt formed compound
     assertTrue(ruleGermany.doIgnoreWord("Helizitätsoperator"));         // from spelling.txt formed compound
     assertTrue(ruleGermany.doIgnoreWord("Wodkaherstellung"));           // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Latte-macchiato-Glas"));       // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("No-Name-Hersteller"));         // from spelling.txt formed compound
     assertFalse(ruleGermany.doIgnoreWord("Helizitätso"));               // from spelling.txt formed compound (second part is too short)
     assertFalse(ruleGermany.doIgnoreWord("Feynmand"));                  // from spelling.txt formed compound (second part is too short)
     assertFalse(ruleGermany.doIgnoreWord("Hundhütte"));                 // compound formed from two valid words, but still incorrect
     assertFalse(ruleGermany.doIgnoreWord("Frauversteher"));             // compound formed from two valid words, but still incorrect
     assertFalse(ruleGermany.doIgnoreWord("Wodkasglas"));                // compound formed from two valid words, but still incorrect
     assertFalse(ruleGermany.doIgnoreWord("Author"));
+    assertFalse(ruleGermany.doIgnoreWord("SecondhandWare"));            // from spelling.txt formed compound
+    assertFalse(ruleGermany.doIgnoreWord("MHDware"));                   // from spelling.txt formed compound
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
     assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss
@@ -388,6 +450,8 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
+    assertCorrection(rule, "Medallion", "Medaillon");
+    assertCorrection(rule, "Scheisse", "Scheiße");
     assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
     
     assertCorrection(rule, "aul", "auf");
@@ -482,6 +546,8 @@ public class GermanSpellerRuleTest {
     dictWordsAsBytes.sort(FSABuilder.LEXICAL_ORDERING);
     FSA fsa = FSABuilder.build(dictWordsAsBytes);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+    //FileOutputStream fos = new FileOutputStream("/tmp/morfologik.dict");
+    //fos.write(fsaOutStream.toByteArray());
     ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
     String infoFile = "fsa.dict.speller.replacement-pairs=ä e\n" +
                       "fsa.dict.encoder=SUFFIX\n" +

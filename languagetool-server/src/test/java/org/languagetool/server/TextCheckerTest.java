@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
 public class TextCheckerTest {
 
   private final String english = "This is clearly an English text, should be easy to detect.";
-  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false);
+  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false, null, new RequestCounter());
 
   @Test
   public void testMaxTextLength() throws Exception {
@@ -52,38 +52,38 @@ public class TextCheckerTest {
     params.put("language", "en");
     HTTPServerConfig config1 = new HTTPServerConfig();
     config1.setMaxTextLength(10);
-    TextChecker checker = new V2TextChecker(config1, false);
+    TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {
-      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params);
+      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (TextTooLongException ignore) {}
     try {
       params.put("token", "invalid");
-      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params);
+      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (RuntimeException ignore) {}
     String validToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbGFuZ3VhZ2V0b29scGx1cy5jb20iLCJpYXQiOjE1MDQ4NTY4NTQsInVpZCI6MSwibWF4VGV4dExlbmd0aCI6MTAwfQ._-8qpa99IWJiP_Zx5o-yVU11neW8lrxmLym1DdwPtIc";
     try {
       params.put("token", validToken);
-      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params);
+      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (RuntimeException expected) {
       // server not configured to accept tokens
     }
     try {
       config1.secretTokenKey = "foobar";
-      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params);
+      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (SignatureVerificationException ignore) {}
 
     config1.secretTokenKey = "foobar";
     // see test below for how to create a token:
     params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZm9vYmFyIiwiaWF0IjoxNTA0ODU3NzAzLCJtYXhUZXh0TGVuZ3RoIjozMH0.2ijjMEhSyJPEc0fv91UtOJdQe8CMfo2U9dbXgHOkzr0");
-    checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params);
+    checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
 
     try {
       config1.secretTokenKey = "foobar";
-      checker.checkText(new AnnotatedTextBuilder().addText("now it's even longer than 30 chars").build(), new FakeHttpExchange(), params);
+      checker.checkText(new AnnotatedTextBuilder().addText("now it's even longer than 30 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (TextTooLongException expected) {
       // too long even with claim from token, which allows 30 characters

@@ -18,13 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -36,6 +29,8 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -46,6 +41,13 @@ import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
@@ -63,6 +65,8 @@ public class German extends Language implements AutoCloseable {
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
   private LanguageModel languageModel;
+  private List<Rule> nnRules;
+  private Word2VecModel word2VecModel;
 
   /**
    * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
@@ -157,8 +161,8 @@ public class German extends Language implements AutoCloseable {
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann.")),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "„", "»", "«"),
-                    Arrays.asList("]", ")", "}", "“", "«", "»")),
+                    Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
+                    Arrays.asList("]", ")", "}", "“", "«", "»", "\"")),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut.")),
@@ -180,10 +184,15 @@ public class German extends Language implements AutoCloseable {
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
             new WiederVsWiderRule(messages),
-            new LongSentenceRule(messages, 20, false),
-            new LongSentenceRule(messages, 30, false),
-            new LongSentenceRule(messages, 40, false),
-            new LongSentenceRule(messages, 50, false)
+            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new EmptyLineRule(messages),
+            new GermanStyleRepeatedWordRule(messages),
+            new CompoundCoherencyRule(messages),
+            new LongSentenceRule(messages),
+            new GermanParagraphRepeatBeginningRule(messages),
+            new PunctuationMarkAtParagraphEnd(messages),
+            new DuUpperLowerCaseRule(messages)
     );
   }
 
@@ -227,12 +236,31 @@ public class German extends Language implements AutoCloseable {
     return languageModel;
   }
 
+  /** @since 4.0 */
+  @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    if (word2VecModel == null) {
+      word2VecModel = new Word2VecModel(indexDir + File.separator + getShortCode());
+    }
+    return word2VecModel;
+  }
+
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
-            new GermanConfusionProbabilityRule(messages, languageModel, this)
+            new GermanConfusionProbabilityRule(messages, languageModel, this),
+            new ProhibitedCompoundRule(messages, languageModel)
     );
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    if (nnRules == null) {
+      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
+    }
+    return nnRules;
   }
 
   /**
@@ -254,9 +282,13 @@ public class German extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
+      case "ANS_OHNE_APOSTROPH": return 1;
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
+      case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
+      case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
     }
     return 0;
   }

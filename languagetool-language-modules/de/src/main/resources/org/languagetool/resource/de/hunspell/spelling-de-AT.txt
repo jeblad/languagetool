@@ -35,8 +35,16 @@ Dachgeschoßwohnungen
 Erstsemestrige/N
 Erstsemestriger
 Feber/NS
+Ferialpraktikant
+Ferialpraktikanten
+Ferialpraktikantin
+Ferialpraktikantinnen
 gerittert
 geschlampert
+grundbücherlich/A
+Kassier/S
+Kassierin
+Kassierinnen
 Leibnitz
 Partieführer/NS
 Partieführerin
@@ -60,6 +68,8 @@ schlampern
 schlampernd/A
 schlamperst
 schlampert/A
+Schwammerlkorb/S
+Schwammerlkörbe/N
 Schwammerlplätze/N
 Schwammerlplatz
 Schwammerlplatzes

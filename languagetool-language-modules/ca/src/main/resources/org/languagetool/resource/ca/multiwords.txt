@@ -365,6 +365,11 @@ West Ham	NPCNG00
 West Side	NPCNG00
 Xi Jiang	NPCNG00
 Zareh Sharan	NPCNG00
+Warner Bros	_GN_FS
+Paramount Pictures	_GN_FS
+20th Century Fox	_GN_FS
+a arrapapeus	LOC_ADV
+a balzem	LOC_ADV
 a banda i banda	LOC_ADV
 a base d'	LOC_PREP
 a base de	LOC_PREP
@@ -372,13 +377,17 @@ a bastament	LOC_ADV
 a bastança	LOC_ADV
 a betzef	LOC_ADV
 a bocons	LOC_ADV
+a borbollons	LOC_ADV
+a borbotons	LOC_ADV
 a bondó	LOC_ADV
 a burro-barra	LOC_ADV
+a burri-barra	LOC_ADV
 a bé d'	LOC_PREP
 a bé de	LOC_PREP
 a canvi d'	LOC_PREP
 a canvi de	LOC_PREP
 a cappella	LOC_ADV
+a carcasselles	LOC_ADV
 a casa d'	LOC_PREP
 a casa de	LOC_PREP
 a causa d'	LOC_PREP
@@ -391,6 +400,8 @@ a cient d'	LOC_PREP
 a cient de	LOC_PREP
 a cobert d'	LOC_PREP
 a cobert de	LOC_PREP
+a coixcoix	LOC_ADV
+a la coixcoix	LOC_ADV
 a collbotet	LOC_ADV
 a collibè	LOC_ADV
 a coneguda d'	LOC_PREP
@@ -413,6 +424,7 @@ a costa d'	LOC_PREP
 a costa de	LOC_PREP
 a cremadent	LOC_ADV
 a cuita-corrents	LOC_ADV
+a culastrons	LOC_ADV
 a càrrec d'	LOC_PREP
 a càrrec de	LOC_PREP
 a còpia d'	LOC_PREP
@@ -444,6 +456,8 @@ a força de	LOC_PREP
 a gatameus	LOC_ADV
 a gatameu	LOC_ADV
 a la gatameu	LOC_ADV
+a la mèu-mèu	LOC_ADV
+a les galligotes	LOC_ADV
 a granel	LOC_ADV
 a gratcient	LOC_ADV
 a guisa d'	LOC_PREP
@@ -457,6 +471,10 @@ a l'atenció de	LOC_PREP
 a l'empara d'	LOC_PREP
 a l'empara de	LOC_PREP
 a l'empèl	LOC_ADV
+a l'emprompte	LOC_ADV
+a l'esquill	LOC_ADV
+d'esquill	LOC_ADV
+en un emprompte	LOC_ADV
 a l'encop	LOC_ADV
 a l'engròs	LOC_ADV
 a l'entrant d'	LOC_PREP
@@ -503,6 +521,7 @@ a més a més	LOC_ADV
 a palpes	LOC_ADV
 a palpons	LOC_ADV
 a palpentes	LOC_ADV
+a palpontes	LOC_ADV
 a part	LOC_ADV
 a part d'	LOC_PREP
 a part de	LOC_PREP
@@ -535,7 +554,10 @@ a rossegons	LOC_ADV
 a semblança d'	LOC_PREP
 a semblança de	LOC_PREP
 a tentipotenti	LOC_ADV
+a tocatoni	LOC_ADV
 a tornajornals	LOC_ADV
+a tornajornal	LOC_ADV
+a tornallom	LOC_ADV
 a tota hora	LOC_ADV
 a tota ultrança	LOC_ADV
 a totes hores	LOC_ADV
@@ -633,6 +655,7 @@ arran de	LOC_PREP
 arreu d'	LOC_PREP
 arreu de	LOC_PREP
 art déco	_GN_MS
+art nouveau	_GN_MS
 atenent que	LOC_CONJ
 avinent d'	LOC_PREP
 avinent de	LOC_PREP
@@ -655,6 +678,8 @@ boca per amunt	LOC_ADV
 boca per avall	LOC_ADV
 bona cosa	LOC_ADV
 bé prou	LOC_ADV
+bull terrier	_GN_MN
+fox terrier	_GN_MN
 cafè concert	_GN_MS
 cafès concert	_GN_MP
 café concert	_GN_MS
@@ -674,6 +699,7 @@ carrils bici	_GN_MP
 carrils bus	_GN_MP
 casus belli	_GN_MS_
 ceteris paribus	LOC_ADV
+codi QR	_GN_MS
 coitus interruptus	_GN_MN
 concerto grosso	_GN_MS
 concerti grossi	_GN_MP
@@ -780,6 +806,11 @@ de primer antuvi	LOC_ADV
 de puntelles	LOC_ADV
 de puntelletes	LOC_ADV
 de puntetes	LOC_ADV
+de pul en pul	LOC_ADV
+a la pul pul	LOC_ADV
+de rapa-fuig	LOC_ADV
+de raspalló	LOC_ADV
+de reconco	LOC_ADV
 de recules	LOC_ADV
 de reculons	LOC_ADV
 de rellisquentes	LOC_ADV
@@ -814,6 +845,7 @@ déjà vu	_GN_MS
 del cert	LOC_ADV
 del tot	LOC_ADV
 delirium tremens	_GN_MN
+delírium trémens	_GN_MN
 després d'	LOC_PREP
 després de	LOC_PREP
 deus ex machina	_GN_MN
@@ -897,6 +929,7 @@ en funció d'	LOC_PREP
 en funció de	LOC_PREP
 en general	LOC_ADV
 en gran part	LOC_ADV
+en joli	LOC_ADV
 en la mesura en què	LOC_CONJ
 en la mesura que	LOC_CONJ
 en la seua majoria	LOC_ADV
@@ -923,6 +956,7 @@ en senyal d'	LOC_PREP
 en senyal de	LOC_PREP
 en sopols	LOC_ADV
 en un sopols	LOC_ADV
+en un dric-drac	LOC_ADV
 en tant que	LOC_CONJ
 en temps en temps	LOC_ADV
 en virtut d'	LOC_PREP
@@ -931,6 +965,7 @@ en vist	LOC_PREP
 en vistes d'	LOC_PREP
 en vistes de	LOC_PREP
 en voga	LOC_ADV
+enfant terrible	_GN_MS
 enfront d'	LOC_PREP
 enfront de	LOC_PREP
 enmig d'	LOC_PREP
@@ -950,6 +985,8 @@ ex-alt càrrec	_GN_MS
 ex-alts càrrecs	_GN_MP
 fa molt poc	LOC_ADV
 fa poc	LOC_ADV
+fair play	_GN_MS
+fast food	_GN_MS
 femme fatale	_GN_FS
 fet i fet	LOC_ADV
 fil per l'agulla	LOC_ADV
@@ -979,6 +1016,8 @@ herriko taberna	_GN_FS
 herriko tabernes	_GN_FP
 hic et nunc	LOC_ADV
 honoris causa	LOC_ADV
+hoquei patins	_GN_MS
+hoquei herba	_GN_MS
 horror vacui	_GN_MS
 in articulo mortis	LOC_ADV
 in fieri	LOC_ADV
@@ -1008,9 +1047,11 @@ kale borroka	_GN_FS
 laissez faire	_GN_MS
 lato sensu	LOC_ADV
 lingua franca	_GN_FS
+lignum crucis	_GN_MN
 llevat que	LOC_CONJ
 lluny d'	LOC_PREP
 lluny de	LOC_PREP
+long play	_GN_MN
 ma non troppo	LOC_ADV
 making of	_GN_MS
 manta vegada	LOC_ADV
@@ -1102,11 +1143,14 @@ per virtut d'	LOC_PREP
 per virtut de	LOC_PREP
 post mortem	LOC_ADV
 post meridiem	LOC_ADV
+post scriptum	_GN_MS
 prime time	_GN_MS
+prima donna	_GN_FS
 pro domo sua	LOC_ADV
 in dubio pro reo	LOC_ADV
 quant i més	LOC_PREP
 quant més	LOC_PREP
+quid pro quo	_GN_MS
 khi quadrat	LOC_ADJ
 rara avis	_GN_FS
 rata mesquera	_GN_FS
@@ -1121,6 +1165,7 @@ road movies	_GN_MP
 rock and roll	_GN_MS
 rock & roll	_GN_MS
 rigor mortis	_GN_MS
+rhythm and blues	_GN_MS
 sancta sanctorum	_GN_MS
 schola cantorum	_GN_FS
 Schola Cantorum	_GN_FS
@@ -1139,6 +1184,8 @@ si fa no fa	LOC_ADV
 si més no	LOC_ADV
 sine die	LOC_ADV
 sine qua non	LOC_ADJ
+singularia tantum	_GN_MS
+pluralia tantum	_GN_MS
 sobre manera	LOC_ADV
 sota capa d'	LOC_PREP
 sota capa de	LOC_PREP
@@ -1163,7 +1210,7 @@ taules braser	_GN_FP
 think tank	_GN_MS
 think tanks	_GN_MP
 tocant a	LOC_PREP
-tomàquet cicerol	_GN_MS
+tomàquet cirerol	_GN_MS
 top manta	_GN_MN
 tot d'una	LOC_ADV
 tot just	LOC_ADV
